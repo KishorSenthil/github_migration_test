@@ -1,0 +1,40 @@
+// {
+//     "python.pythonPath": "/home/tiger04235/miniconda3/envs/mle-dev/bin/python",
+//     "editor.formatOnSave": true,
+//     "editor.codeActionsOnSave": {
+//         "source.organizeImports": "explicit",
+//         "source.fixAll": "explicit"
+//     },
+//     "python.languageServer": "Jedi",
+//     "python.formatting.blackPath": "/home/tiger04235/miniconda3/bin/black",
+//     "python.sortImports.args": [
+//         "--profile",
+//         "black"
+//     ],
+//     "python.formatting.blackArgs": [
+//         "-l",
+//         "79",
+//         "--py36",
+//         "--pyi"
+//     ],
+// }
+{
+    "python.pythonPath": "/home/tiger04235/miniconda3/envs/mle-dev/bin/python",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+        "source.fixAll": "explicit"
+    },
+    "python.formatting.blackPath": "/home/tiger04235/miniconda3/bin/black",
+    "python.sortImports.args": [
+        "--profile",
+        "black"
+    ],
+    "python.formatting.blackArgs": [
+        "-l",
+        "79",
+        "--py36",
+        "--pyi"
+    ],
+    // "python.languageServer": "Jedi"
+}
