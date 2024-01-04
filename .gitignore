@@ -13,4 +13,4 @@ outputs/artifacts/models/**
 artifacts/models/**
 docs/build/**
 src/housing.egg-info/
-dist/housing*
+dist/**
