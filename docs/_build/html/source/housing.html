@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>housing package &mdash; Housing v0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=a74d790d"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Housing
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">housing package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-housing.ingest_data">housing.ingest_data module</a><ul>
+<li><a class="reference internal" href="#housing.ingest_data.fetch_housing_data"><code class="docutils literal notranslate"><span class="pre">fetch_housing_data()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.get_path"><code class="docutils literal notranslate"><span class="pre">get_path()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.income_cat_proportions"><code class="docutils literal notranslate"><span class="pre">income_cat_proportions()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.load_housing_data"><code class="docutils literal notranslate"><span class="pre">load_housing_data()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.preprocess"><code class="docutils literal notranslate"><span class="pre">preprocess()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.save_preprocessed"><code class="docutils literal notranslate"><span class="pre">save_preprocessed()</span></code></a></li>
+<li><a class="reference internal" href="#housing.ingest_data.train_test"><code class="docutils literal notranslate"><span class="pre">train_test()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-housing.logger">housing.logger module</a><ul>
+<li><a class="reference internal" href="#housing.logger.configure_logger"><code class="docutils literal notranslate"><span class="pre">configure_logger()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-housing.score">housing.score module</a><ul>
+<li><a class="reference internal" href="#housing.score.get_path"><code class="docutils literal notranslate"><span class="pre">get_path()</span></code></a></li>
+<li><a class="reference internal" href="#housing.score.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li><a class="reference internal" href="#housing.score.load_models"><code class="docutils literal notranslate"><span class="pre">load_models()</span></code></a></li>
+<li><a class="reference internal" href="#housing.score.score"><code class="docutils literal notranslate"><span class="pre">score()</span></code></a></li>
+<li><a class="reference internal" href="#housing.score.scoring"><code class="docutils literal notranslate"><span class="pre">scoring()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-housing.train">housing.train module</a><ul>
+<li><a class="reference internal" href="#housing.train.get_path"><code class="docutils literal notranslate"><span class="pre">get_path()</span></code></a></li>
+<li><a class="reference internal" href="#housing.train.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li><a class="reference internal" href="#housing.train.model"><code class="docutils literal notranslate"><span class="pre">model()</span></code></a></li>
+<li><a class="reference internal" href="#housing.train.rem_artifacts"><code class="docutils literal notranslate"><span class="pre">rem_artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#housing.train.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-housing">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Housing</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">housing package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/housing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="housing-package">
+<h1>housing package<a class="headerlink" href="#housing-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-housing.ingest_data">
+<span id="housing-ingest-data-module"></span><h2>housing.ingest_data module<a class="headerlink" href="#module-housing.ingest_data" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.fetch_housing_data">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">fetch_housing_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">housing_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">housing_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data/raw/housing'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.fetch_housing_data" title="Link to this definition"></a></dt>
+<dd><p>Download and extract the housing dataset from a given URL.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>housing_url<span class="classifier">str, optional</span></dt><dd><p>The URL from which to download the housing dataset.</p>
+</dd>
+<dt>housing_path<span class="classifier">str, optional</span></dt><dd><p>The local directory where the dataset will be stored.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>The function doesn’t return anything. It downloads and extracts the dataset.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fetch_housing_data</span><span class="p">()</span>
+<span class="go"># Downloads and extracts the housing dataset to the default location.</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fetch_housing_data</span><span class="p">(</span><span class="n">housing_url</span><span class="o">=</span><span class="s1">&#39;http://example.com/housing.tgz&#39;</span><span class="p">,</span> <span class="n">housing_path</span><span class="o">=</span><span class="s1">&#39;/path/to/custom/location&#39;</span><span class="p">)</span>
+<span class="go"># Downloads and extracts the housing dataset from a custom URL to a custom location.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.get_path">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.get_path" title="Link to this definition"></a></dt>
+<dd><p>Retrieve the path of the ‘mle-training’ project directory.</p>
+<section id="id1">
+<h3>Returns<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>The absolute path of the ‘mle-training’ project directory.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Examples<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project_path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">()</span>
+<span class="go"># Retrieves the absolute path of the &#39;mle-training&#39; project directory.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.income_cat_proportions">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">income_cat_proportions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.income_cat_proportions" title="Link to this definition"></a></dt>
+<dd><p>Calculate the proportions of each income category in the given dataset.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">pandas.DataFrame</span></dt><dd><p>The dataset containing the “income_cat” column.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pandas.Series</dt><dd><p>A Series containing the proportions of each income category.</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h3>Examples<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">income_cat_proportions</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">)</span>
+<span class="go"># Calculates the proportions of each income category in the provided dataset.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.load_housing_data">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">load_housing_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">housing_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data/raw/housing'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.load_housing_data" title="Link to this definition"></a></dt>
+<dd><p>Load the housing dataset from a CSV file.</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>housing_path<span class="classifier">str, optional</span></dt><dd><p>The local directory where the dataset CSV file is located.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>A DataFrame containing the loaded housing dataset.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Examples<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_housing_data</span><span class="p">()</span>
+<span class="go"># Loads the housing dataset from the default location.</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_housing_data</span><span class="p">(</span><span class="n">housing_path</span><span class="o">=</span><span class="s1">&#39;/path/to/custom/location&#39;</span><span class="p">)</span>
+<span class="go"># Loads the housing dataset from a custom location.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.preprocess">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strat_train_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.preprocess" title="Link to this definition"></a></dt>
+<dd><p>Preprocess the stratified training set for housing data.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>strat_train_set<span class="classifier">pandas.DataFrame</span></dt><dd><p>The stratified training set of the housing data.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple of pandas.DataFrame</dt><dd><p>A tuple containing the preprocessed housing features and labels.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Examples<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">my_stratified_train_set</span><span class="p">)</span>
+<span class="go"># Preprocesses the stratified training set of the housing data.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.save_preprocessed">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">save_preprocessed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.save_preprocessed" title="Link to this definition"></a></dt>
+<dd><p>Save preprocessed data to CSV files.</p>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>train_X<span class="classifier">pandas.DataFrame</span></dt><dd><p>Features of the training set.</p>
+</dd>
+<dt>train_y<span class="classifier">pandas.Series</span></dt><dd><p>Labels of the training set.</p>
+</dd>
+<dt>test_X<span class="classifier">pandas.DataFrame</span></dt><dd><p>Features of the test set.</p>
+</dd>
+<dt>test_y<span class="classifier">pandas.Series</span></dt><dd><p>Labels of the test set.</p>
+</dd>
+<dt>processed<span class="classifier">str</span></dt><dd><p>Path to the directory where the preprocessed files will be saved.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<p>None</p>
+</section>
+<section id="id14">
+<h3>Examples<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">save_preprocessed</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_X</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="s1">&#39;/path/to/processed&#39;</span><span class="p">)</span>
+<span class="go"># Saves preprocessed data to CSV files in the specified directory.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.ingest_data.train_test">
+<span class="sig-prename descclassname"><span class="pre">housing.ingest_data.</span></span><span class="sig-name descname"><span class="pre">train_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">housing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.ingest_data.train_test" title="Link to this definition"></a></dt>
+<dd><p>Split the housing dataset into training and testing sets with stratified sampling based on income categories.</p>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>housing<span class="classifier">pandas.DataFrame</span></dt><dd><p>The dataset to be split.</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple of pandas.DataFrame</dt><dd><p>A tuple containing the stratified training and testing sets.</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h3>Examples<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">train_test</span><span class="p">(</span><span class="n">my_housing_dataset</span><span class="p">)</span>
+<span class="go"># Splits the housing dataset into training and testing sets using stratified sampling.</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-housing.logger">
+<span id="housing-logger-module"></span><h2>housing.logger module<a class="headerlink" href="#module-housing.logger" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.logger.configure_logger">
+<span class="sig-prename descclassname"><span class="pre">housing.logger.</span></span><span class="sig-name descname"><span class="pre">configure_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">console</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DEBUG'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.logger.configure_logger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-housing.score">
+<span id="housing-score-module"></span><h2>housing.score module<a class="headerlink" href="#module-housing.score" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.score.get_path">
+<span class="sig-prename descclassname"><span class="pre">housing.score.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#housing.score.get_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.score.load_data">
+<span class="sig-prename descclassname"><span class="pre">housing.score.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.score.load_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.score.load_models">
+<span class="sig-prename descclassname"><span class="pre">housing.score.</span></span><span class="sig-name descname"><span class="pre">load_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.score.load_models" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.score.score">
+<span class="sig-prename descclassname"><span class="pre">housing.score.</span></span><span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.score.score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.score.scoring">
+<span class="sig-prename descclassname"><span class="pre">housing.score.</span></span><span class="sig-name descname"><span class="pre">scoring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lin_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_search</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.score.scoring" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-housing.train">
+<span id="housing-train-module"></span><h2>housing.train module<a class="headerlink" href="#module-housing.train" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.train.get_path">
+<span class="sig-prename descclassname"><span class="pre">housing.train.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#housing.train.get_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.train.load_data">
+<span class="sig-prename descclassname"><span class="pre">housing.train.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.train.load_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.train.model">
+<span class="sig-prename descclassname"><span class="pre">housing.train.</span></span><span class="sig-name descname"><span class="pre">model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lin_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_reg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_search</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.train.model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.train.rem_artifacts">
+<span class="sig-prename descclassname"><span class="pre">housing.train.</span></span><span class="sig-name descname"><span class="pre">rem_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.train.rem_artifacts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="housing.train.train">
+<span class="sig-prename descclassname"><span class="pre">housing.train.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">housing_prepared</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">housing_labels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#housing.train.train" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-housing">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-housing" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, KISHOR.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
