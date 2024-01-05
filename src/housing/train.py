@@ -23,28 +23,6 @@ def get_path():
     return os.getcwd() + "/"
 
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--inputpath",
-        help="path to the input dataset ",
-        type=str,
-        default="data/processed/",
-    )
-    parser.add_argument(
-        "--outputpath",
-        help="path to store the output ",
-        type=str,
-        default="artifacts",
-    )
-    parser.add_argument("--log-level", type=str, default="DEBUG")
-    parser.add_argument("--no-console-log", action="store_true")
-    parser.add_argument(
-        "--log-path", type=str, default=get_path() + "logs/logs.log"
-    )
-    return parser.parse_args()
-
-
 def train(housing_prepared, housing_labels):
     lin_reg = LinearRegression()
     lin_reg.fit(housing_prepared, housing_labels)
@@ -85,11 +63,15 @@ def load_data(in_path):
     return prepared, lables
 
 
+# artifacts folder - to store models.
+# below code has the path to store those models.
 def rem_artifacts(out_path):
     if os.path.exists(out_path + "/models"):
         shutil.rmtree(out_path + "/models")
 
 
+# pikle (.pkl)file can convert complex Python objects, including machine learning models, into a byte stream.
+# This allows you to save the model's state and structure in a file.
 def model(lin_reg, tree_reg, forest_reg, grid_search, out_path):
     out_path = out_path + "/models"
     os.makedirs(out_path)
@@ -97,24 +79,3 @@ def model(lin_reg, tree_reg, forest_reg, grid_search, out_path):
     pickle.dump(tree_reg, open(out_path + "/tree_model.pkl", "wb"))
     pickle.dump(forest_reg, open(out_path + "/forest_model.pkl", "wb"))
     pickle.dump(grid_search, open(out_path + "/grid_search_model.pkl", "wb"))
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    logger = configure_logger(
-        log_level=args.log_level,
-        log_file=args.log_path,
-        console=not args.no_console_log,
-    )
-    path_parent = get_path()
-    in_path = path_parent + args.inputpath
-    out_path = path_parent + args.outputpath
-    rem_artifacts(out_path)
-    prepared, labels = load_data(in_path)
-    logger.debug("Loaded training data")
-    lin_reg, tree_reg, forest_reg, grid_search = train(prepared, labels)
-    logger.debug("Training completed")
-    if not os.path.exists(out_path):
-        os.makedirs(out_path)
-    model(lin_reg, tree_reg, forest_reg, grid_search, out_path)
-    logger.debug(f"Models stored at {out_path}.")

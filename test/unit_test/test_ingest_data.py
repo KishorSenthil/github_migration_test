@@ -3,8 +3,9 @@ import unittest
 
 import pandas as pd
 from housing import ingest_data as data
+from housing import run_script as path
 
-args = data.parse_args()
+args = path.parse_args()
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_PATH = args.datapath
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
@@ -12,13 +13,6 @@ rootpath = data.get_path()
 
 
 class Testutils(unittest.TestCase):
-    def test_parse_args(self):
-        self.assertTrue(args.datapath == "data/raw/housing")
-        self.assertTrue(args.dataprocessed == "data/processed")
-        self.assertTrue(args.log_level == "DEBUG")
-        self.assertFalse(args.no_console_log)
-        self.assertTrue(args.log_path == rootpath + "logs/logs.log")
-
     def test_fetch_data(self):
         data.fetch_housing_data(HOUSING_URL, HOUSING_PATH)
         self.assertTrue(

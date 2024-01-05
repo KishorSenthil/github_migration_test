@@ -1,41 +1,130 @@
 import argparse
 import os
 import tarfile
+from six.moves import urllib
 from logging import Logger
 
 import numpy as np
 import pandas as pd
-import urllib.request
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 
+# from housing import run_script as args
 from housing.logger import configure_logger
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
-HOUSING_PATH = os.path.join("datasets", "housing")
+HOUSING_PATH = os.path.join("data/raw", "housing")
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 imputer = SimpleImputer(strategy="median")
 
 
+import os
+import tarfile
+from urllib import request as urllib
+
+# args = initiator.parse_args()
+
+
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
+    """
+    Download and extract the housing dataset from a given URL.
+
+    Parameters
+    ----------
+    housing_url : str, optional
+        The URL from which to download the housing dataset.
+    housing_path : str, optional
+        The local directory where the dataset will be stored.
+
+    Returns
+    -------
+    None
+        The function doesn't return anything. It downloads and extracts the dataset.
+
+    Examples
+    --------
+    >>> fetch_housing_data()
+    # Downloads and extracts the housing dataset to the default location.
+
+    >>> fetch_housing_data(housing_url='http://example.com/housing.tgz', housing_path='/path/to/custom/location')
+    # Downloads and extracts the housing dataset from a custom URL to a custom location.
+    """
     os.makedirs(housing_path, exist_ok=True)
     tgz_path = os.path.join(housing_path, "housing.tgz")
-    urllib.request.urlretrieve(housing_url, tgz_path)
+    urllib.urlretrieve(housing_url, tgz_path)
     housing_tgz = tarfile.open(tgz_path)
     housing_tgz.extractall(path=housing_path)
     housing_tgz.close()
 
 
 def load_housing_data(housing_path=HOUSING_PATH):
+    """
+    Load the housing dataset from a CSV file.
+
+    Parameters
+    ----------
+    housing_path : str, optional
+        The local directory where the dataset CSV file is located.
+
+    Returns
+    -------
+    pandas.DataFrame
+        A DataFrame containing the loaded housing dataset.
+
+    Examples
+    --------
+    >>> load_housing_data()
+    # Loads the housing dataset from the default location.
+
+    >>> load_housing_data(housing_path='/path/to/custom/location')
+    # Loads the housing dataset from a custom location.
+    """
     csv_path = os.path.join(housing_path, "housing.csv")
     return pd.read_csv(csv_path)
 
 
 def income_cat_proportions(data):
+    """
+    Calculate the proportions of each income category in the given dataset.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The dataset containing the "income_cat" column.
+
+    Returns
+    -------
+    pandas.Series
+        A Series containing the proportions of each income category.
+
+    Examples
+    --------
+    >>> income_cat_proportions(my_dataset)
+    # Calculates the proportions of each income category in the provided dataset.
+    """
     return data["income_cat"].value_counts() / len(data)
 
 
 def train_test(housing):
+    """
+    Split the housing dataset into training and testing sets with stratified sampling based on income categories.
+
+    Parameters
+    ----------
+    housing : pandas.DataFrame
+        The dataset to be split.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        A tuple containing the stratified training and testing sets.
+
+    Examples
+    --------
+    >>> train_set, test_set = train_test(my_housing_dataset)
+    # Splits the housing dataset into training and testing sets using stratified sampling.
+    """
+
     housing["income_cat"] = pd.cut(
         housing["median_income"],
         bins=[0.0, 1.5, 3.0, 4.5, 6.0, np.inf],
@@ -47,24 +136,6 @@ def train_test(housing):
         strat_train_set = housing.loc[train_index]
         strat_test_set = housing.loc[test_index]
 
-    train_set, test_set = train_test_split(
-        housing, test_size=0.2, random_state=42
-    )
-
-    compare_props = pd.DataFrame(
-        {
-            "Overall": income_cat_proportions(housing),
-            "Stratified": income_cat_proportions(strat_test_set),
-            "Random": income_cat_proportions(test_set),
-        }
-    ).sort_index()
-    compare_props["Rand. %error"] = (
-        100 * compare_props["Random"] / compare_props["Overall"] - 100
-    )
-    compare_props["Strat. %error"] = (
-        100 * compare_props["Stratified"] / compare_props["Overall"] - 100
-    )
-
     for set_ in (strat_train_set, strat_test_set):
         set_.drop("income_cat", axis=1, inplace=True)
 
@@ -72,6 +143,24 @@ def train_test(housing):
 
 
 def preprocess(strat_train_set):
+    """
+    Preprocess the stratified training set for housing data.
+
+    Parameters
+    ----------
+    strat_train_set : pandas.DataFrame
+        The stratified training set of the housing data.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        A tuple containing the preprocessed housing features and labels.
+
+    Examples
+    --------
+    >>> features, labels = preprocess(my_stratified_train_set)
+    # Preprocesses the stratified training set of the housing data.
+    """
     housing = strat_train_set.copy()
 
     corr_matrix = housing.corr(numeric_only=True)
@@ -116,29 +205,21 @@ def preprocess(strat_train_set):
     return housing_prepared, housing_labels
 
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--datapath",
-        help="path to store the dataset ",
-        type=str,
-        default="data/raw/housing",
-    )
-    parser.add_argument(
-        "--dataprocessed",
-        help="path to store the dataset ",
-        type=str,
-        default="data/processed",
-    )
-    parser.add_argument("--log-level", type=str, default="DEBUG")
-    parser.add_argument("--no-console-log", action="store_true")
-    parser.add_argument(
-        "--log-path", type=str, default=get_path() + "logs/logs.log"
-    )
-    return parser.parse_args()
-
-
+#  to get the project's directory
 def get_path():
+    """
+    Retrieve the path of the 'mle-training' project directory.
+
+    Returns
+    -------
+    str
+        The absolute path of the 'mle-training' project directory.
+
+    Examples
+    --------
+    >>> project_path = get_path()
+    # Retrieves the absolute path of the 'mle-training' project directory.
+    """
     path_parent = os.getcwd()
     while os.path.basename(os.getcwd()) != "mle_training":
         path_parent = os.path.dirname(os.getcwd())
@@ -146,37 +227,34 @@ def get_path():
     return os.getcwd() + "/"
 
 
-#  3.5.i
+# to store the trained/validated datasets
 def save_preprocessed(train_X, train_y, test_X, test_y, processed):
+    """
+    Save preprocessed data to CSV files.
+
+    Parameters
+    ----------
+    train_X : pandas.DataFrame
+        Features of the training set.
+    train_y : pandas.Series
+        Labels of the training set.
+    test_X : pandas.DataFrame
+        Features of the test set.
+    test_y : pandas.Series
+        Labels of the test set.
+    processed : str
+        Path to the directory where the preprocessed files will be saved.
+
+    Returns
+    -------
+    None
+
+    Examples
+    --------
+    >>> save_preprocessed(train_X, train_y, test_X, test_y, '/path/to/processed')
+    # Saves preprocessed data to CSV files in the specified directory.
+    """
     train_X.to_csv(os.path.join(processed, "train_X.csv"), index=False)
     train_y.to_csv(os.path.join(processed, "train_y.csv"), index=False)
     test_X.to_csv(os.path.join(processed, "test_X.csv"), index=False)
     test_y.to_csv(os.path.join(processed, "test_y.csv"), index=False)
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    logger = configure_logger(
-        log_level=args.log_level,
-        log_file=args.log_path,
-        console=not args.no_console_log,
-    )
-    parent_path = get_path()
-    path = parent_path + args.datapath
-    fetch_housing_data(housing_path=path)
-    logger.debug("Fetched housing data.")
-    logger.debug(f"Dataset stored at {path}.")
-    data = load_housing_data(housing_path=path)
-    logger.debug("Loaded housing data.")
-    train, test = train_test(data)
-    train_X, train_y = preprocess(train)
-    print(train_X.shape, train_y.shape)
-    logger.debug("Preprocessing housing data...")
-    test_X, test_y = preprocess(test)
-    processed = parent_path + args.dataprocessed
-    if not os.path.exists(processed):
-        os.makedirs(processed)
-    save_preprocessed(train_X, train_y, test_X, test_y, processed)
-    logger.debug(
-        f"Preprocessed train and test datasets stored at {processed}."
-    )
