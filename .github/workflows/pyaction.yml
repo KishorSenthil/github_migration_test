@@ -1,9 +1,12 @@
 name: Python Packaging
 
 on:
-  push:
-    branches:
-      - enh/#7/python_packaging
+    push:
+      branches:
+        - enh/#7/python_packaging
+    pull_request:
+      branches:
+        - enh/#7/python_packaging
 
 jobs:
   build:
