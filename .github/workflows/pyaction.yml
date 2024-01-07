@@ -1,0 +1,31 @@
+name: Python Packaging
+
+on:
+  push:
+    branches:
+      - enh/#7/python_packaging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x  # You can specify your Python version here
+
+      - name: Install dependencies
+        run: pip install numpy pandas scikit-learn matplotlib pytest
+
+      - name: Install dependencies_1
+        run: pip install ./dist/housing-0.0.0-py3-none-any.whl
+
+      - name: Run Python script
+        run: python src/housing/run_script.py
+
+      - name: Run tests with pytest
+        run: pytest
