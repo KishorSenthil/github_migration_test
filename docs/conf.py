@@ -19,11 +19,11 @@ sys.path.insert(0, os.path.abspath("."))
 # -- Project information -----------------------------------------------------
 
 project = "Housing"
-copyright = "2023, KISHOR"
+copyright = "2024, KISHOR"
 author = "KISHOR"
 
 # The full version, including alpha/beta/rc tags
-release = "v0.3"
+release = "v0.2"
 
 
 # -- General configuration ---------------------------------------------------

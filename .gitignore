@@ -7,10 +7,10 @@ mlruns/**
 .flake8
 .vscode/**
 *models/**
-# *.log
+*.log
 *artifacts/**
 outputs/artifacts/models/**
 artifacts/models/**
 docs/build/**
 src/housing.egg-info/
-# dist/**
+dist/**

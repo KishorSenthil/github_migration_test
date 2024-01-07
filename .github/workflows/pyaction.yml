@@ -19,7 +19,10 @@ jobs:
           python-version: 3.x  # You can specify your Python version here
 
       - name: Install dependencies
-        run: pip install numpy pandas scikit-learn matplotlib pytest
+        run: pip install numpy pandas scikit-learn matplotlib pytest build
+
+      - name: Install dependencies_1
+        run: pip -m build
 
       - name: Install dependencies_1
         run: pip install ./dist/housing-0.0.0-py3-none-any.whl
