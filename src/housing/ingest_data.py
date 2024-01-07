@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
+from urllib import request as urllib
 
 # from housing import run_script as args
 from housing.logger import configure_logger
@@ -17,10 +18,6 @@ HOUSING_PATH = os.path.join("data/raw", "housing")
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 imputer = SimpleImputer(strategy="median")
 
-
-import os
-import tarfile
-from urllib import request as urllib
 
 # args = initiator.parse_args()
 

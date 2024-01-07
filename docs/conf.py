@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath("."))
 
 project = "Housing"
 copyright = "2023, KISHOR"
-author = "KISHOR S"
+author = "KISHOR"
 
 # The full version, including alpha/beta/rc tags
 release = "v0.3"
