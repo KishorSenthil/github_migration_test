@@ -22,7 +22,7 @@ jobs:
         run: pip install numpy pandas scikit-learn matplotlib pytest build
 
       - name: Install dependencies_1
-        run: pip -m build
+        run: python -m build
 
       - name: Install dependencies_1
         run: pip install ./dist/housing-0.0.0-py3-none-any.whl
