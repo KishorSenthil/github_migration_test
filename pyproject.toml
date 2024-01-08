@@ -24,9 +24,10 @@ maintainers = [
 
 
 [project.urls]
-Repository = "https://github.com/sangeeth-7/mle-training.git"
+Repository = "https://github.com/KishorSenthil/mle-training.git"
 
 [tool.poetry]
 name = "housing"
 description = "To standardize our code for production."
 authors = ["kishor <kishor.senthilkui@tigeranalytics.com>"]
+
