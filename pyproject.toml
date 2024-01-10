@@ -1,3 +1,33 @@
 [tool.black]
 line-length = 79
 
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "housing"
+description = "To standardize our code for production."
+dependencies = [
+    "requests",
+    'importlib-metadata; python_version<"3.8"'
+]
+readme = "README.md"
+dynamic = ["version"]
+authors = [
+  {name = "Kishor", email = "kishor.senthilkui@tigeranalytics.com"}
+]
+maintainers = [
+  {name = "Abilash R", email = "abilash.ravi@tigeranalytics.com"},
+  {name = "Sarath Srinivas S", email = "sarath.srinivas@tigeranalytics.com"},
+]
+
+
+[project.urls]
+Repository = "https://github.com/KishorSenthil/mle-training.git"
+
+[tool.poetry]
+name = "housing"
+description = "To standardize our code for production."
+authors = ["kishor <kishor.senthilkui@tigeranalytics.com>"]
+

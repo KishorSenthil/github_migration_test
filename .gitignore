@@ -1,3 +1,16 @@
-*.pyc
 *.csv
+*.pyc
 *.tgz
+build/**
+*.egg-info/**
+mlruns/**
+.flake8
+.vscode/**
+*models/**
+*.log
+*artifacts/**
+outputs/artifacts/models/**
+artifacts/models/**
+docs/build/**
+src/housing.egg-info/
+dist/**
