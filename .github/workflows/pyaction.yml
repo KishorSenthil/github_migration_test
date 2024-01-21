@@ -30,8 +30,12 @@ jobs:
       - name: Install dependencies_1
         run: pip install ./dist/housing-0.0.0-py3-none-any.whl
 
+      - name: Upgrad mlflow
+        run: pip install --upgrade mlflow
+
       - name: Install setuptool
         run: pip install --upgrade setuptools
+
       - name: create mflow experiment
         run:
           mlflow experiments create --experiment-name housing_experiment
