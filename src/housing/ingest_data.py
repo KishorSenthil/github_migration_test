@@ -1,4 +1,4 @@
-import argparse
+# import argparse
 import os
 import tarfile
 from six.moves import urllib
@@ -6,9 +6,14 @@ from logging import Logger
 
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 from urllib import request as urllib
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.base import BaseEstimator, TransformerMixin
 
 # from housing import run_script as args
 from housing.logger import configure_logger
@@ -20,6 +25,33 @@ imputer = SimpleImputer(strategy="median")
 
 
 # args = initiator.parse_args()
+
+
+rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+    def __init__(self, add_bedrooms_per_room=True):  # no *args or **kargs
+        self.add_bedrooms_per_room = add_bedrooms_per_room
+
+    def fit(self, X, y=None):
+        return self  # nothing else to do
+
+    def transform(self, X):
+        rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+        population_per_household = X[:, population_ix] / X[:, households_ix]
+        if self.add_bedrooms_per_room:
+            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+            return np.c_[
+                X,
+                rooms_per_household,
+                population_per_household,
+                bedrooms_per_room,
+            ]
+
+        else:
+            return np.c_[X, rooms_per_household, population_per_household]
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
@@ -47,6 +79,7 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
     # Downloads and extracts the housing dataset from a custom URL to a custom location.
     """
     os.makedirs(housing_path, exist_ok=True)
+    print("im in ingest")
     tgz_path = os.path.join(housing_path, "housing.tgz")
     urllib.urlretrieve(housing_url, tgz_path)
     housing_tgz = tarfile.open(tgz_path)
@@ -158,47 +191,59 @@ def preprocess(strat_train_set):
     >>> features, labels = preprocess(my_stratified_train_set)
     # Preprocesses the stratified training set of the housing data.
     """
-    housing = strat_train_set.copy()
-
-    corr_matrix = housing.corr(numeric_only=True)
-    corr_matrix["median_house_value"].sort_values(ascending=False)
-    housing["rooms_per_household"] = (
-        housing["total_rooms"] / housing["households"]
-    )
-    housing["bedrooms_per_room"] = (
-        housing["total_bedrooms"] / housing["total_rooms"]
-    )
-    housing["population_per_household"] = (
-        housing["population"] / housing["households"]
-    )
-
-    housing = strat_train_set.drop(
-        "median_house_value", axis=1
-    )  # drop labels for training set
+    housing = strat_train_set.drop("median_house_value", axis=1)
     housing_labels = strat_train_set["median_house_value"].copy()
-
-    housing_num = housing.drop("ocean_proximity", axis=1)
-
-    imputer.fit(housing_num)
-    X = imputer.transform(housing_num)
-
-    housing_tr = pd.DataFrame(
-        X, columns=housing_num.columns, index=housing.index
-    )
-    housing_tr["rooms_per_household"] = (
-        housing_tr["total_rooms"] / housing_tr["households"]
-    )
-    housing_tr["bedrooms_per_room"] = (
-        housing_tr["total_bedrooms"] / housing_tr["total_rooms"]
-    )
-    housing_tr["population_per_household"] = (
-        housing_tr["population"] / housing_tr["households"]
+    housing_num = housing.drop("ocean_proximity", axis=1)  #
+    numeric_processor = Pipeline(
+        steps=[
+            (
+                "imputation_mean",
+                SimpleImputer(missing_values=np.nan, strategy="mean"),
+            ),
+            (
+                "custome_transformer",
+                CombinedAttributesAdder(add_bedrooms_per_room=True),
+            ),
+            # ("scaler", StandardScaler())
+        ]
     )
 
-    housing_cat = housing[["ocean_proximity"]]
-    housing_prepared = housing_tr.join(
-        pd.get_dummies(housing_cat, drop_first=True)
+    categorical_processor = Pipeline(
+        steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))]
     )
+
+    num_attributes = list(housing_num)
+    cat_attributes = ["ocean_proximity"]
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("numerical", numeric_processor, num_attributes),
+            ("categorical", categorical_processor, cat_attributes),
+        ]
+    )
+    extra_feature = [
+        "rooms_per_household",
+        "population_per_household",
+        "bedrooms_per_room",
+    ]
+    num_attributes
+
+    transformed_data = preprocessor.fit_transform(housing)
+
+    # Get feature names for the categorical_processor
+    categorical_feature_names = preprocessor.transformers_[1][1][
+        "onehot"
+    ].get_feature_names_out(cat_attributes)
+
+    # Combine numerical and categorical feature names
+    all_feature_names = (
+        num_attributes + extra_feature + list(categorical_feature_names)
+    )
+    all_feature_names
+    # Display the transformed DataFrame with feature names
+    housing_prepared = pd.DataFrame(
+        transformed_data, columns=all_feature_names
+    )
+    # housing_prepared
     return housing_prepared, housing_labels
 
 
