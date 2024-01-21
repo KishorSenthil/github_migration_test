@@ -38,9 +38,7 @@ jobs:
 
       - name: create mflow experiment
         run:
-          mlflow experiments create --experiment-name housing_experiment
           mkdir logs
-          python /home/runner/work/mle_training/mle_training/src/housing/run_script.py
 
 
       - name: Lint with flake8
