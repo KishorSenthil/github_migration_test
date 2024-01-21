@@ -4,9 +4,9 @@ import warnings
 import mlflow
 import mlflow.sklearn
 
-from HousingKishor import ingest_data as data
-from HousingKishor import score as scoreses
-from HousingKishor import train as trains
+from housing import ingest_data as data
+from housing import score as scoreses
+from housing import train as trains
 
 # Filter out DeprecationWarning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
