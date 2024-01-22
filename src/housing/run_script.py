@@ -66,7 +66,7 @@ if __name__ == "__main__":
     mlflow.set_experiment(args.experiment_name)
 
     # Main run
-    with mlflow.start_run():
+    with mlflow.start_run(run_name="Parent_flow"):
         logger = data.configure_logger(
             log_level=args.log_level,
             log_file=args.log_path,
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         mlflow.log_param("log-path", args.log_path)
 
         # Child run 1: data preparation
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name="data_preparation"):
             mlflow.log_param("run_type", "data_preparation")
             data.fetch_housing_data(housing_path=path)
             logger.debug("Fetched housing data.")
@@ -110,7 +110,7 @@ if __name__ == "__main__":
             )  # Log the preprocessed data as an artifact
 
         # Child run 2: model training
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name="model_training"):
             mlflow.log_param("run_type", "model_training")
             path_parent = trains.get_path()
             in_path = path_parent + args.inputpath
@@ -138,7 +138,7 @@ if __name__ == "__main__":
             )  # Log the trained models as an artifact
 
         # Child run 3: scoring
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name="scoring"):
             mlflow.log_param("run_type", "scoring")
             path_parent = scoreses.get_path()
             data_path = path_parent + args.dataprocessed
