@@ -40,8 +40,5 @@ jobs:
       - name: Run Python script
         run: python src/housing/run_script.py
 
-      - name: Run mlflow ui
-        run: mlflow ui
-
       - name: Run tests with pytest
         run: pytest
