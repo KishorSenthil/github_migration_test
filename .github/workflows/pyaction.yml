@@ -22,7 +22,7 @@ jobs:
           python-version: 3.x  # You can specify your Python version here
 
       - name: Install dependencies
-        run: pip install numpy pandas scikit-learn matplotlib pytest build flake8
+        run: pip install numpy pandas scikit-learn matplotlib pytest build flake8 mlflow
 
       - name: Install dependencies_1
         run: python -m build
@@ -39,6 +39,7 @@ jobs:
 
       - name: Run Python script
         run: python src/housing/run_script.py
+
 
       - name: Run tests with pytest
         run: pytest
