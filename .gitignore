@@ -15,3 +15,4 @@ docs/build/**
 src/housing.egg-info/
 dist/**
 notebook/.ipynb_checkpoints/
+
