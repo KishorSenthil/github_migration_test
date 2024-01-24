@@ -14,4 +14,5 @@ artifacts/models/**
 docs/build/**
 src/housing.egg-info/
 dist/**
-notebook/.ipynb_checkpoints
+notebook/.ipynb_checkpoints/
+
