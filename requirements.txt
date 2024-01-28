@@ -1,0 +1,9 @@
+--upgrade pip
+flake8
+pytest
+numpy
+pandas
+scikit-learn
+matplotlib
+dist/housing-0.0.0-py3-none-any.whl
+mlflow
