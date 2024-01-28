@@ -1,4 +1,3 @@
---upgrade pip
 flake8
 pytest
 numpy
