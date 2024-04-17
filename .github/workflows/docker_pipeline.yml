@@ -48,8 +48,8 @@ jobs:
         uses: cloudposse/github-action-docker-image-exists@main
         with:
             registry: registry.hub.docker.com
-            organization: "${{ github.event.repository.owner.login }}"
-            repository: "${{ github.event.repository.name }}"
+            organization: "kishorsenthil"
+            repository: "docker_projects"
             login: "${{ secrets.DOCKERHUB_USERNAME }}"
             password: "${{ secrets.DOCKERHUB_PASSWORD }}"
             tag: main
