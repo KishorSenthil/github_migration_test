@@ -55,7 +55,7 @@ jobs:
             tag: main
 
       - name: Build and push Docker image
-        if: ${{steps.requirements-changes.outputs.any_changed == 'true' || steps.image_exists.outputs.image_exists == '0' }}
+        if: ${{steps.requirements-changes.outputs.any_changed == 'true' || steps.image_exists.outputs.image_exists == '1' }}
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
