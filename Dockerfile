@@ -1,15 +1,20 @@
+
+
 FROM python:3.9
 
-RUN apt-get update && apt-get install -y git
+WORKDIR /mle_training
 
-RUN git clone https://REMOVED_GITHUB_TOKEN0AAxcO0O5LNLgC7yXjoyyPmS5Pxh5P3MYJgp@github.com/KishorSenthil/mle_training.git
+RUN apt-get update
 
-COPY requirements.txt .
-
-COPY ./src ./src
+COPY . .
 
 RUN pip install build
 
-RUN pip install -r requirements.txt
+RUN python -m build
 
-CMD ["python", "./src/housing/run_script.py"]
+RUN mkdir -p /mle_training/logs
+
+RUN  pip install -r requirements.txt
+
+
+CMD ["sh", "-c", "python ./src/housing/run_script.py && pytest && mlflow ui "]
