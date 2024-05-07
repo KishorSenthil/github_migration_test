@@ -2,7 +2,7 @@
 
 FROM python:3.9
 
-WORKDIR /mle_training
+WORKDIR /*
 
 RUN apt-get update
 
@@ -12,7 +12,7 @@ RUN pip install build
 
 RUN python -m build
 
-RUN mkdir -p /mle_training/logs
+RUN mkdir -p /logs
 
 RUN  pip install -r requirements.txt
 
