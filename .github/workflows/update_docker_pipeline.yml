@@ -1,18 +1,48 @@
-name: Print GitHub Token
+name: Deploy Workflow
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  actions: read  # Explicitly set permissions for actions to read
+  contents: read  # Read-only access to repository contents
 
 jobs:
-  print-token:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
+      # Step 1: Check out the repository with full history for SHA verification
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Mask GitHub Token
-        run: echo "::add-mask::${{ secrets.GITHUB_TOKEN }}"
+      # Step 2: Find the last successful build SHA
+      - name: Find matching workflow
+        id: sha_old
+        uses: SamhammerAG/last-successful-build-action@v4
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          branch: "development"
+          workflow: "build"
+          verify: true  # Verifies the SHA against the repository
 
-      - name: Print GitHub Token
+      # Step 3: Print the last successful build SHA (for debugging purposes)
+      - name: Print last successful build SHA
         run: |
-          echo "GITHUB_TOKEN is: ${{ secrets.GITHUB_TOKEN }}"
+          echo "::add-mask::${{ steps.sha_old.outputs.sha }}"
+          echo "Last successful build SHA: ${{ steps.sha_old.outputs.sha }}"
+
+      # Step 4: Compare current commit with the last successful build (optional)
+      - name: Compare changes
+        run: git diff ${{ steps.sha_old.outputs.sha }} HEAD
+
+      # Step 5: Deploy the last successful build (example command)
+      - name: Deploy last successful build
+        run: |
+          git checkout ${{ steps.sha_old.outputs.sha }}
+          # Your deployment script/commands here
+          ./deploy.sh
