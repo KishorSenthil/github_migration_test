@@ -1,5 +1,4 @@
-name: Deploy Workflow
-
+name: release-workflow
 on:
   push:
     branches:
