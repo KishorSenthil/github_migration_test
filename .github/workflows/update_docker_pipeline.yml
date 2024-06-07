@@ -20,29 +20,41 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Step 2: Find the last successful build SHA
+      # Step 2: Find the last successful release workflow run
       - name: Find matching workflow
         id: sha_old
         uses: SamhammerAG/last-successful-build-action@v4
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          branch: "development"
-          workflow: "build"
+          branch: "main"
+          workflow: "release-workflow"
           verify: true  # Verifies the SHA against the repository
 
-      # Step 3: Print the last successful build SHA (for debugging purposes)
-      - name: Print last successful build SHA
+      # Step 3: Check if a previous successful SHA was found
+      - name: Determine SHA
+        id: determine_sha
         run: |
-          echo "::add-mask::${{ steps.sha_old.outputs.sha }}"
-          echo "Last successful build SHA: ${{ steps.sha_old.outputs.sha }}"
+          if [ "${{ steps.sha_old.outputs.sha }}" == "" ]; then
+            echo "No previous successful build found. Using current commit."
+            echo "sha=${GITHUB_SHA}" >> $GITHUB_ENV
+          else
+            echo "Last successful build SHA found: ${{ steps.sha_old.outputs.sha }}"
+            echo "sha=${{ steps.sha_old.outputs.sha }}" >> $GITHUB_ENV
+          fi
 
-      # Step 4: Compare current commit with the last successful build (optional)
+      # Step 4: Print the determined SHA (for debugging purposes)
+      - name: Print determined SHA
+        run: |
+          echo "::add-mask::${{ env.sha }}"
+          echo "Determined SHA: ${{ env.sha }}"
+
+      # Step 5: Compare current commit with the last successful build (optional)
       - name: Compare changes
-        run: git diff ${{ steps.sha_old.outputs.sha }} HEAD
+        run: git diff ${{ env.sha }} HEAD
 
-      # Step 5: Deploy the last successful build (example command)
-      - name: Deploy last successful build
+      # Step 6: Deploy the determined SHA
+      - name: Deploy determined SHA
         run: |
-          git checkout ${{ steps.sha_old.outputs.sha }}
+          git checkout ${{ env.sha }}
           # Your deployment script/commands here
           ./deploy.sh
