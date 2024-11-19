@@ -1,15 +1,31 @@
 name: SonarQube Integration
-  sonarqube:
-    name: SonarQube Integration
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the 'main' branch
+
+jobs:
+  sonarqube-scan-backend:
     runs-on: ubuntu-latest
-    
+    name: 'SonarQube Scan Backend'
     steps:
-    - uses: actions/checkout@v2
-      with:
-        # Disabling shallow clone is recommended for improving relevancy of reporting
-        fetch-depth: 0
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} //Sonar Token generated 
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} example URL (https://sq.bswlog.co.in/)
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan1
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: doeapi
+          args: >
+            -Dsonar.projectKey=housing
+            -Dsonar.sources=.
+            -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
+            -Dsonar.projectBaseDir=src/hosuing
+            -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.login=${{ env.SONAR_TOKEN }}
