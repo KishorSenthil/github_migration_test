@@ -1,0 +1,4 @@
+artifact_location: file:///home/tiger04235/Assignment3.1/mle_training/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: housing_experiment
