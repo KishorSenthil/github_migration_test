@@ -1,0 +1,15 @@
+artifact_uri: file:///home/tiger04235/Assignment3.1/mle_training/mlruns/1/4ad7659620ea4494b5d110401b830afc/artifacts
+end_time: 1707248146093
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 4ad7659620ea4494b5d110401b830afc
+run_uuid: 4ad7659620ea4494b5d110401b830afc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1707248146086
+status: 4
+tags: []
+user_id: tiger04235
