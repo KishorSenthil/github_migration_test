@@ -1,0 +1,6 @@
+# Map all old "Tiger Analytics" commit authors to your clean migrate.com identity
+
+# Format:  New Name <new_email>    Old Name <old_email>
+
+kishor <kishor@migrate.com> kishor <kishor.senthilku@tigeranalytics.com>
+kishor <kishor@migrate.com> kishor.senthilku <kishor.senthilku@tigeranalytics.com>
