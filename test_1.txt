@@ -3,3 +3,4 @@ hi
 test2
 test_3
 Add test_4 to file_test.txt
+test_4
