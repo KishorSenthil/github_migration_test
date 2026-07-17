@@ -1,0 +1,42 @@
+{
+  "last_updated": "2026-07-17T16:30:00Z",
+  "environments": {
+    "dev": {
+      "market_us": {
+        "latest": { "version": "v1.2.0", "image": "ghcr.io/myapp/us:v1.2.0", "deployed_at": "2026-07-17" },
+        "previous": [
+          { "version": "v1.1.9", "image": "ghcr.io/myapp/us:v1.1.9" },
+          { "version": "v1.1.8", "image": "ghcr.io/myapp/us:v1.1.8" }
+        ]
+      },
+      "market_eu": {
+        "latest": { "version": "v1.2.0", "image": "ghcr.io/myapp/eu:v1.2.0", "deployed_at": "2026-07-17" },
+        "previous": [
+          { "version": "v1.1.5", "image": "ghcr.io/myapp/eu:v1.1.5" }
+        ]
+      },
+      "market_apac": {
+        "latest": { "version": "v1.0.5", "image": "ghcr.io/myapp/apac:v1.0.5", "deployed_at": "2026-07-15" },
+        "previous": []
+      }
+    },
+    "ppd": {
+      "market_us": {
+        "latest": { "version": "v1.1.0", "image": "ghcr.io/myapp/us:v1.1.0", "deployed_at": "2026-07-10" },
+        "previous": [
+          { "version": "v1.0.9", "image": "ghcr.io/myapp/us:v1.0.9" },
+          { "version": "v1.0.8", "image": "ghcr.io/myapp/us:v1.0.8" },
+          { "version": "v1.0.7", "image": "ghcr.io/myapp/us:v1.0.7" }
+        ]
+      },
+      "market_eu": {
+        "latest": { "version": "v1.1.0", "image": "ghcr.io/myapp/eu:v1.1.0", "deployed_at": "2026-07-10" },
+        "previous": []
+      },
+      "market_apac": {
+        "latest": { "version": "v0.9.5", "image": "ghcr.io/myapp/apac:v0.9.5", "deployed_at": "2026-07-01" },
+        "previous": []
+      }
+    }
+  }
+}
