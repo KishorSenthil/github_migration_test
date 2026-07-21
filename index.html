@@ -17,7 +17,7 @@
             </div>
             
             <!-- Secure Action Trigger Button -->
-            <a id="action-btn" href="https://github.com/YOUR_USERNAME/release-dashboard-poc/actions" target="_blank" 
+            <a id="action-btn" href="https://github.com/kishorsenthil/github_migration_test/actions" target="_blank" 
                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition-colors">
                🚀 Trigger New Release
             </a>
@@ -47,8 +47,8 @@
     </div>
 
     <script>
-        // UPDATE THIS to your actual repository URL
-        const repoBaseUrl = "https://github.com/YOUR_USERNAME/release-dashboard-poc"; 
+        // Updated to point to your specific repository URL
+        const repoBaseUrl = "https://github.com/kishorsenthil/github_migration_test"; 
         
         let manifestData = null;
         const envSelect = document.getElementById('env-select');
@@ -57,7 +57,10 @@
 
         // Fetch data
         fetch('./manifest.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Manifest not found");
+                return response.json();
+            })
             .then(data => {
                 manifestData = data;
                 
@@ -76,7 +79,10 @@
                 updateMarketDropdown();
                 renderDashboard();
             })
-            .catch(error => console.error('Error loading manifest:', error));
+            .catch(error => {
+                console.error('Error loading manifest:', error);
+                document.getElementById('last-updated').innerText = "Error loading data. Check console.";
+            });
 
         // Event Listeners for Dropdowns
         envSelect.addEventListener('change', () => {
@@ -115,14 +121,14 @@
             const latestImg = latest.image || "No image deployed yet";
             const latestVer = latest.version ? `<a href="${repoBaseUrl}/releases/tag/${latest.version}" target="_blank" class="text-blue-600 hover:underline font-bold">${latest.version}</a>` : "N/A";
             
-            // Generate previous releases list
-            const previousListHTML = details.previous.length > 0 
+            // Generate previous releases list (BUG FIXED HERE)
+            const previousListHTML = details.previous && details.previous.length > 0 
                 ? details.previous.map(p => `
                     <li class="py-1">
                         <a href="${repoBaseUrl}/releases/tag/${p.version}" target="_blank" class="text-blue-600 hover:underline mr-2">${p.version}</a> 
-                        <code class="bg-gray-50 px-2 py-0.5 rounded border border-gray-200 text-xs">${p.image}</code>
+                        <code class="bg-gray-50 px-2 py-0.5 rounded border border-gray-200 text-xs break-all">${p.image}</code>
                     </li>`).join('') 
-                : "<li class="text-gray-500">No previous releases</li>";
+                : `<li class="text-gray-500">No previous releases</li>`;
 
             // Inject HTML
             dashboardContent.innerHTML = `
